@@ -1,0 +1,17 @@
+{
+  "extends": "./tsconfig.json",
+  "include": ["src/contracts/**/*.ts"],
+  "compilerOptions": {
+    "noEmit": true,
+    "experimentalDecorators": true,
+    "target": "ESNext",
+    "esModuleInterop": true,
+    "plugins": [
+      {
+        "transform": "C:\\Users\\19927\\AppData\\Roaming\\npm\\node_modules\\@opcat-labs\\cli-opcat\\node_modules\\@opcat-labs\\scrypt-ts-transpiler-opcat\\dist\\index.js",
+        "transformProgram": true,
+        "outDir": "artifacts"
+      }
+    ]
+  }
+}
