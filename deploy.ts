@@ -1,6 +1,11 @@
 import * as dotenv from 'dotenv'
 import { getDefaultProvider, getDefaultSigner } from './tests/utils/txHelper'
-import { deploy, sha256, toByteString, call } from '@opcat-labs/scrypt-ts-opcat'
+import {
+    deploy,
+    sha256,
+    toByteString,
+    call,
+} from '@opcat-labs/scrypt-ts-opcat'
 import { Helloworld } from 'helloworld'
 
 // Load the .env file
@@ -13,25 +18,20 @@ if (!process.env.PRIVATE_KEY) {
 }
 
 async function main() {
-    let contract = new Helloworld(sha256(toByteString('hello world', true)))
+    const contract = new Helloworld(sha256(toByteString('hello world', true)))
 
     const provider = getDefaultProvider()
     const signer = getDefaultSigner()
 
-    const deployPsbt = await deploy(signer, provider, contract, 1)
+    const deployPsbt = await deploy(signer, provider, contract)
 
     const deployTx = deployPsbt.extractTransaction()
 
     console.log(`Helloworld contract deployed: ${deployTx.id}`)
 
-    const callPsbt = await call(
-        signer,
-        provider,
-        contract,
-        (contract: Helloworld) => {
-            contract.unlock(toByteString('hello world', true))
-        }
-    )
+    const callPsbt = await call(signer, provider, contract, (contract: Helloworld) => {
+        contract.unlock(toByteString('hello world', true))
+    })
 
     const callTx = callPsbt.extractTransaction()
 
